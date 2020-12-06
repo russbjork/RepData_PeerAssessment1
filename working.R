@@ -26,15 +26,30 @@ dailysteps <- data %>%
     group_by(date) %>%
     summarize(steps = sum(steps)) %>%
     print(dailysteps)
+
 meansteps <- mean(dailysteps$steps, na.rm=TRUE)
     print(meansteps)
+
 medsteps <- median(dailysteps$steps, na.rm=TRUE)
     print(medsteps)
+    
+intvlsteps <- data %>%
+    filter(!is.na(steps)) %>%
+    group_by(interval) %>%
+    summarize(steps = mean(steps))
 ##
 ## Graph and plot the transformed data
 ##
+
 # Basic histogram
 ggplot(dailysteps, aes(x=steps)) + 
     geom_histogram(binwidth=1000, color="blue", fill="white") +
     labs(title = "Histogram of Steps per day", x = "Steps", y = "Frequency") +
     theme(plot.title.position = 'plot',plot.title = element_text(hjust = 0.5))
+
+# Basic time series
+ggplot(intvlsteps, aes(x=interval, y=steps)) +
+    geom_line(color = "blue") +
+    labs(title = "Time Series of Steps per Interval", x = "Interval", y = "Steps") +
+    theme(plot.title.position = 'plot',plot.title = element_text(hjust = 0.5))
+
