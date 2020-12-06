@@ -6,19 +6,67 @@ output:
 ---
 
 
+## Environment setup and configuration
+```{r echo=TRUE}
+## 
+## Reproducible Data - Project 1
+##
+library(dplyr)
+library(ggplot2)
+library(knitr)
+opts_chunk$set(echo = TRUE)
+```
+
 ## Loading and preprocessing the data
 
+1. Load the data
+```{r echo=TRUE}
+## Read in raw data from activity.csv file
+rawdata <- read.csv("activity.csv",header=TRUE,na.strings="NA")
+```
+
+2. Process/transform the data
+```{r echo=TRUE}
+## Transform the data convert date attribute to valid Date - NEW DATASET
+data <- rawdata %>% mutate(date=as.Date(date,format = "%Y-%m-%d"))
+```
 
 
 ## What is mean total number of steps taken per day?
+```{r echo=TRUE}
+## Data filtered and grouped by date for a summary of steps per day
+dailysteps <- data %>%
+    filter(!is.na(steps)) %>%
+    group_by(date) %>%
+    summarize(steps = sum(steps)) %>%
+    print(dailysteps)
 
+```
 
+1. Histogram of the total number of steps taken each day
+```{r echo=TRUE}
+# Basic histogram of summarized steps by day
+ggplot(dailysteps, aes(x=steps)) + 
+    geom_histogram(binwidth=1000, color="blue", fill="white") +
+    labs(title = "Histogram of Steps per day", x = "Steps", y = "Frequency") +
+    theme(plot.title.position = 'plot',plot.title = element_text(hjust = 0.5))
+```
+
+2. The the mean and median total number of steps taken per day
+```{r echo=TRUE}
+## Calculation of mean steps taken each day.
+meansteps <- mean(dailysteps$steps, na.rm=TRUE)
+    print(meansteps)
+## Calculation of median steps taken each day.
+medsteps <- median(dailysteps$steps, na.rm=TRUE)
+    print(medsteps)
+```
 
 ## What is the average daily activity pattern?
 
 
 
-## Imputing missing values
+## Inputing missing values
 
 
 

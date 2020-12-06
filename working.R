@@ -12,14 +12,14 @@ opts_chunk$set(echo = TRUE)
 rawdata <- read.csv("activity.csv",header=TRUE,na.strings="NA")
 
 ##
-## Transform the data convert date attribute to valid Date
+## Transform the data convert date attribute to valid Date - NEW DATASET
 ##
 data <- rawdata %>% 
         mutate(date=as.Date(date,format = "%Y-%m-%d"))
 
 ##
-## Transform the data NA steps with the average number of steps in the same 5-min interval
-## Create a new dataset from the date transformed, use tapply for filling in the missing values
+## Transform the data replacing NA steps with the average number of steps in the same 5-min interval
+## from the date transformed data, use tapply for filling in the missing values  - NEW DATASET
 ##
 datafill <- data
 nas <- is.na(datafill$steps)
@@ -28,6 +28,13 @@ datafill$steps[nas] <- avgintvl[as.character(datafill$interval[nas])]
 checkdata <- sum(is.na(datafill$steps))
     print(checkdata)
 
+##
+## Transform the step NA filled data, add factor variable for weekday or weekend - NEW DATASET
+##
+datalevels <- mutate(datafill, weektype = ifelse(weekdays(datafill$date) == "Saturday" | weekdays(datafill$date) == "Sunday", "weekend", "weekday"))
+    datafill$weektype <- as.factor(datailll$weektype)
+    print(datalevels)
+    
 ##
 ## Data filtered/grouped summary and calculations
 ##
@@ -77,6 +84,12 @@ meanstepsfill <- mean(stepsfill$steps, na.rm = TRUE)
 medianstepsfill <- median(stepsfill$steps, na.rm = TRUE)
     print(medianstepsfill)
     
+## Data evaluated to calculate the average steps in the 5-minute interval for weekday and weekend
+intervallevels <- datalevels %>%
+    group_by(interval, weektype) %>%
+    summarize(steps = mean(steps))
+    print(intervallevels)
+    
 ##
 ## Graph and plot the transformed data
 ##
@@ -97,3 +110,10 @@ ggplot(stepsfill, aes(x = steps)) +
     geom_histogram(binwidth = 1000, color="blue", fill = "white") +
     labs(title = "Histogram of Steps per Day - Missing Data Replaced", x = "Steps", y = "Frequency") +
     theme(plot.title.position = 'plot',plot.title = element_text(hjust = 0.5))
+
+# Basic time series of mean steps per day weekday vs weekend
+ggplot(intervallevels, aes(x=interval, y=steps, color = weektype)) +
+    geom_line() +
+    facet_wrap(~weektype, ncol = 1, nrow=2) +
+    labs(title = "Time Series of Steps per Interval by Weektype", x = "Interval", y = "Steps") +
+    theme(plot.title.position = 'plot',plot.title = element_text(hjust = 0.33))
