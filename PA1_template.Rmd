@@ -19,13 +19,13 @@ opts_chunk$set(echo = TRUE)
 
 ## Loading and preprocessing the data
 
-1. Load the data
+1. Load the data  
 ```{r echo=TRUE}
 ## Read in raw data from activity.csv file
 rawdata <- read.csv("activity.csv",header=TRUE,na.strings="NA")
 ```
 
-2. Process/transform the data
+2. Process/transform the data  
 ```{r echo=TRUE}
 ## Transform the data convert date attribute to valid Date - NEW DATASET
 data <- rawdata %>% mutate(date=as.Date(date,format = "%Y-%m-%d"))
@@ -33,6 +33,8 @@ data <- rawdata %>% mutate(date=as.Date(date,format = "%Y-%m-%d"))
 
 
 ## What is mean total number of steps taken per day?
+
+1. Calculate the total number of steps taken per day  
 ```{r echo=TRUE}
 ## Data filtered and grouped by date for a summary of steps per day
 dailysteps <- data %>%
@@ -43,7 +45,7 @@ dailysteps <- data %>%
 
 ```
 
-1. Histogram of the total number of steps taken each day
+2. Histogram of the total number of steps taken each day  
 ```{r echo=TRUE}
 # Basic histogram of summarized steps by day
 ggplot(dailysteps, aes(x=steps)) + 
@@ -52,7 +54,8 @@ ggplot(dailysteps, aes(x=steps)) +
     theme(plot.title.position = 'plot',plot.title = element_text(hjust = 0.5))
 ```
 
-2. The the mean and median total number of steps taken per day
+3. The the mean and median total number of steps taken per day    
+    NOTE:  ignore the missing values in the dataset  
 ```{r echo=TRUE}
 ## Calculation of mean steps taken each day.
 meansteps <- mean(dailysteps$steps, na.rm=TRUE)
@@ -64,13 +67,42 @@ medsteps <- median(dailysteps$steps, na.rm=TRUE)
 
 ## What is the average daily activity pattern?
 
-<p style="color:red"><b>Here is some text, this part of which is red!</b></p>
-
-## Inputing missing values
+1. Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)  
 ```{r}
 
 ```
 
+2. The 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps  
+```{r}
 
+```
+
+## Inputing missing values
+Note: There are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
+
+1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)  
+```{r}
+
+```
+
+2. Devise a strategy for filling in all of the missing values in the dataset. The mean for a specific 5-minute interval used to replace NA values.
+```{r}
+
+```
+
+3. A new dataset that is equal to the original dataset but with the missing data replaced. 
+```{r}
+
+```
+
+4. Histogram of the total number of steps taken each day and calculation to report the mean and median total number of steps taken per day.   
+```{r}
+
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+```{r}
+
+```
