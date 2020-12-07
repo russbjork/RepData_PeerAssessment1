@@ -32,8 +32,9 @@ checkdata <- sum(is.na(datafill$steps))
 ## Transform the step NA filled data, add factor variable for weekday or weekend - NEW DATASET
 ##
 datalevels <- mutate(datafill, weektype = ifelse(weekdays(datafill$date) == "Saturday" | weekdays(datafill$date) == "Sunday", "weekend", "weekday"))
-    datafill$weektype <- as.factor(datailll$weektype)
+##datafill$weektype <- as.factor(datafill$weektype)
     print(datalevels)
+    str(datalevels)
     
 ##
 ## Data filtered/grouped summary and calculations
