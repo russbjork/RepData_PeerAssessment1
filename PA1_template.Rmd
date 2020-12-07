@@ -4,7 +4,7 @@ output:
   html_document:
     keep_md: true
 ---
-
+<body style="background-color:LightSkyBlue;">
 
 ## Environment setup and configuration
 ```{r echo=TRUE}
@@ -64,9 +64,12 @@ medsteps <- median(dailysteps$steps, na.rm=TRUE)
 
 ## What is the average daily activity pattern?
 
-
+<p style="color:red"><b>Here is some text, this part of which is red!</b></p>
 
 ## Inputing missing values
+```{r}
+
+```
 
 
 
